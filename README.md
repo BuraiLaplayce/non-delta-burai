@@ -25,7 +25,7 @@ The new file includes the configuration for the game uses this repository to pic
 #### 3 - Finally, open the game and waits for it starts to download the new cards
 To see the new cards go to **Decks** and check the box **Alternate formats**.
 #### 4 - Wants to play with friends?
-The original serves doesn't allow you to play with custom cards. To do so I highly recommend to both players, that wants to play with these cards, install the mod and create a server using Hamashi, or any kind of programm like that, and join it. After that just **open the game** and go to **Lan + AI** create a room and wait your friend to join on it.
+The original serves doesn't allow you to play with custom cards. To do so I highly recommend to both players, that wants to play with these cards, install the mod and create a server using Hamachi, or any kind of programm like that, and join it. After that just **open the game** and go to **Lan + AI** create a room and wait your friend to join on it.
 
 ## Artwork Disclaimer
 
