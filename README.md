@@ -34,8 +34,8 @@ All the artworks used on this mod where picked up from [Deviantart](https://www.
 ## Credits for the Artworks
 
 [SlackerMagician](https://www.deviantart.com/slackermagician)
-
-
+[Ray-V-Xyz](https://www.deviantart.com/ray-v-xyz)
+[PrimeAceJohn](https://www.deviantart.com/primeacejohn)
 
 
 
