@@ -1,7 +1,7 @@
 # non-delta-burai
 ## _A Custom pack of new cards for Project Ignis: EDOPro_
 
-The non-delta package is a modded pack of custom cards for the simulator [Project Ignis: EDOPro](https://github.com/ProjectIgnis/EDOPro), for those who likes to play with forfun cards and wants to experience unofficial card designs and have fun with friends.
+The non-delta-burai package is a modded pack of custom cards for the simulator [Project Ignis: EDOPro](https://github.com/ProjectIgnis/EDOPro), for those who likes to play with forfun cards and wants to experience unofficial card designs and have fun with friends.
 
 ## Features
 
