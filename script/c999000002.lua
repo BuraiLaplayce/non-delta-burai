@@ -13,7 +13,7 @@ function s.initial_effect(c)
 	e1:SetTarget(s.sptg)
 	e1:SetOperation(s.spop)
 	c:RegisterEffect(e1)
-	--Unaffected by other DARK (method IsAttribute is the problem)
+	--Unaffected by other DARK
 	local e2=Effect.CreateEffect(c)
 	e2:SetType(EFFECT_TYPE_SINGLE)
 	e2:SetProperty(EFFECT_FLAG_SINGLE_RANGE)
@@ -21,7 +21,7 @@ function s.initial_effect(c)
 	e2:SetCode(EFFECT_IMMUNE_EFFECT)
 	e2:SetValue(s.efilter)
 	c:RegisterEffect(e2)
-	--Inflict 1200 damage (method IsAttribute is the problem)
+	--Inflict 1200 damage
 	local e3=Effect.CreateEffect(c)
 	e3:SetDescription(aux.Stringid(id,2))
 	e3:SetCategory(CATEGORY_DAMAGE)
@@ -69,14 +69,10 @@ function s.aclimit(e,re,tp)
 	local rc=re:GetHandler()
 	return re:IsActiveType(TYPE_MONSTER) and not rc:IsAttribute(ATTRIBUTE_DARK)
 end
-function s.efilter(e,te)--method is attribute is the problem
+function s.efilter(e,te)
 	local tc=te:GetHandler()
 	return te:IsActiveType(TYPE_MONSTER) and tc:IsAttribute(ATTRIBUTE_DARK) and te:GetOwner()~=e:GetOwner()
 end
---function s.immval(e,te)
---	return te:GetOwner()~=e:GetHandler() and te:IsActiveType(TYPE_MONSTER) and te:IsActivated()
---		and te:GetOwner():GetBaseAttack()<=3000 and te:GetOwner():GetBaseAttack()>=0
---end
 function s.damcon(e,tp,eg,ep,ev,re,r,rp)
 	local rc=re:GetHandler()
 	return not e:GetHandler():IsStatus(STATUS_BATTLE_DESTROYED) and re:IsActiveType(TYPE_MONSTER) 
