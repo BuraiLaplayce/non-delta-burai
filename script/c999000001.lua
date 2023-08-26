@@ -58,7 +58,7 @@ function s.hspop(e,tp,eg,ep,ev,re,r,rp,c)
 	g:DeleteGroup()
 end
 function s.thfilter(c)
-	return c:IsSetCard(0x3b) and not c:IsCode(id) and c:IsAbleToHand()
+	return c:IsSetCard(0x3b) and c:IsMonster() and c:IsLevelBelow(7) and not c:IsCode(id) and c:IsAbleToHand()
 end
 function s.thcfilter(c)
 	return c:IsSetCard(0x3b) and c:IsMonster() and not c:IsCode(id) and c:IsAbleToGraveAsCost()
