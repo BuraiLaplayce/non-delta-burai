@@ -67,7 +67,7 @@ function s.spop(e,tp,eg,ep,ev,re,r,rp)
 end
 function s.aclimit(e,re,tp)
 	local rc=re:GetHandler()
-	return re:IsActiveType(TYPE_MONSTER) and not tp:IsAttribute(ATTRIBUTE_DARK)
+	return re:IsActiveType(TYPE_MONSTER) and not re:IsAttribute(ATTRIBUTE_DARK)
 end
 function s.efilter(e,te)--method is attribute is the problem
 	return te:IsActiveType(TYPE_MONSTER) and te:IsOriginalAttribute(ATTRIBUTE_DARK) and te:GetOwner()~=e:GetOwner()
