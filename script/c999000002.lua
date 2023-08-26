@@ -70,15 +70,17 @@ function s.aclimit(e,re,tp)
 	return re:IsActiveType(TYPE_MONSTER) and not rc:IsAttribute(ATTRIBUTE_DARK)
 end
 function s.efilter(e,te)--method is attribute is the problem
-	return te:IsActiveType(TYPE_MONSTER) and te:IsOriginalAttribute(ATTRIBUTE_DARK) and te:GetOwner()~=e:GetOwner()
+	local tc=te:GetHandler()
+	return te:IsActiveType(TYPE_MONSTER) and tc:IsAttribute(ATTRIBUTE_DARK) and te:GetOwner()~=e:GetOwner()
 end
 --function s.immval(e,te)
 --	return te:GetOwner()~=e:GetHandler() and te:IsActiveType(TYPE_MONSTER) and te:IsActivated()
 --		and te:GetOwner():GetBaseAttack()<=3000 and te:GetOwner():GetBaseAttack()>=0
 --end
-function s.damcon(c,e,tp,eg,ep,ev,re,r,rp)
+function s.damcon(e,tp,eg,ep,ev,re,r,rp)
+	local rc=re:GetHandler()
 	return not e:GetHandler():IsStatus(STATUS_BATTLE_DESTROYED) and re:IsActiveType(TYPE_MONSTER) 
-	and c:IsAttribute(ATTRIBUTE_DARK)
+	and rc:IsAttribute(ATTRIBUTE_DARK)
 end
 function s.damtg(e,tp,eg,ep,ev,re,r,rp,chk)
 	if chk==0 then return true end
