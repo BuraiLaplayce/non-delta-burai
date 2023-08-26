@@ -18,7 +18,10 @@ end
 function s.exfilter(c)
 	return c:IsMonster() and c:IsAttribute(ATTRIBUTE_DARK) and c:IsAbleToGrave()
 end
-function s.fextra(e,tp,mg) --duel matching need to lock on red eyes
+function s.fcheck(tp,sg,fc)
+	return sg:FilterCount(Card.IsLocation,nil,LOCATION_DECK)<=1
+end
+function s.fextra(e,tp,mg) --then is the problem
 	if Duel.IsExistingMatchingCard(s.fefilter,tp,LOCATION_ONFIELD,0,1,nil) then
 		local eg=Duel.GetMatchingGroup(s.exfilter,tp,LOCATION_DECK,0,nil)
 		if eg and #eg>0 then
