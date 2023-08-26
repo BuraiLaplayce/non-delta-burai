@@ -28,6 +28,14 @@ function s.initial_effect(c)
 	e3:SetCode(EFFECT_IMMUNE_EFFECT)
 	e3:SetValue(s.efilter)
 	c:RegisterEffect(e3)
+	--Gains 300 ATK
+	local e4=Effect.CreateEffect(c)
+	e4:SetType(EFFECT_TYPE_SINGLE)
+	e4:SetProperty(EFFECT_FLAG_SINGLE_RANGE)
+	e4:SetCode(EFFECT_UPDATE_ATTACK)
+	e4:SetRange(LOCATION_MZONE)
+	e4:SetValue(s.val)
+	c:RegisterEffect(e4)
 end
 s.listed_series={SET_RED_EYES}
 function s.mfilter1(c,fc,sumtype,tp)
@@ -39,4 +47,7 @@ end
 function s.efilter(e,te)
 	local tc=te:GetHandler()
 	return te:IsActiveType(TYPE_MONSTER) and tc:IsAttribute(ATTRIBUTE_DARK) and te:GetOwner()~=e:GetOwner()
+end
+function s.val(e,c)
+	return Duel.GetMatchingGroupCount(Card.IsAttribute,c:GetControler(),LOCATION_GRAVE,0,nil,ATTRIBUTE_DARK)*300
 end
