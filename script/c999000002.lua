@@ -73,7 +73,7 @@ function s.efilter(e,te)
 	return te:IsActiveType(TYPE_MONSTER) and te:IsAttribute(ATTRIBUTE_DARK) and te:GetOwner()~=e:GetOwner()
 end
 function s.damcon(e,tp,eg,ep,ev,re,r,rp)
-	return not e:GetHandler():IsStatus(STATUS_BATTLE_DESTROYED) and re:IsActiveType(TYPE_MONSTER)
+	return not e:GetHandler():IsStatus(STATUS_BATTLE_DESTROYED) and re:IsActiveType(TYPE_MONSTER) and Duel.IsChainable(ev)
 end
 function s.damtg(e,tp,eg,ep,ev,re,r,rp,chk)
 	if chk==0 then return true end
