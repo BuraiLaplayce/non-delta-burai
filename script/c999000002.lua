@@ -23,7 +23,7 @@ function s.initial_effect(c)
 	c:RegisterEffect(e2)
 	--Inflict 1200 damage (still bugged, need to fix why it doesnt trigger)
 	--local e3=Effect.CreateEffect(c)
-	e3:SetDescription(aux.Stringid(id,2))
+	--e3:SetDescription(aux.Stringid(id,2))
 	e3:SetCategory(CATEGORY_DAMAGE)
 	e3:SetType(EFFECT_TYPE_QUICK_O)
 	e3:SetProperty(EFFECT_FLAG_DAMAGE_STEP+EFFECT_FLAG_DAMAGE_CAL)
@@ -69,8 +69,8 @@ function s.aclimit(e,re,tp)
 	local rc=re:GetHandler()
 	return re:IsActiveType(TYPE_MONSTER) and not tp:IsAttribute(ATTRIBUTE_DARK)
 end
-function s.efilter(e,te,tp)--method is attribute is the problem
-	return te:IsActiveType(TYPE_MONSTER) and tp:IsAttribute(ATTRIBUTE_DARK) and te:GetOwner()~=e:GetOwner()
+function s.efilter(e,te)--method is attribute is the problem
+	return te:IsActiveType(TYPE_MONSTER) and e:IsAttribute(ATTRIBUTE_DARK) and te:GetOwner()~=e:GetOwner()
 end
 function s.damcon(e,tp,eg,ep,ev,re,r,rp)
 	return not e:GetHandler():IsStatus(STATUS_BATTLE_DESTROYED) and re:IsActiveType(TYPE_MONSTER) 
