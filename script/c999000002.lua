@@ -67,10 +67,10 @@ function s.spop(e,tp,eg,ep,ev,re,r,rp)
 end
 function s.aclimit(e,re,tp)
 	local rc=re:GetHandler()
-	return re:IsActiveType(TYPE_MONSTER) and not rc:IsAttribute(ATTRIBUTE_DARK)
+	return re:IsActiveType(TYPE_MONSTER) and not rc:aux.Filter(Card.IsAttribute,ATTRIBUTE_DARK)
 end
-function s.efilter(e,te)
-	return te:IsActiveType(TYPE_MONSTER) and e:IsAttribute(ATTRIBUTE_DARK) and te:GetOwner()~=e:GetOwner()
+function s.efilter(e,te)--method is attribute is the problem
+	return te:IsActiveType(TYPE_MONSTER) and te:aux.Filter(Card.IsAttribute,ATTRIBUTE_DARK) and te:GetOwner()~=e:GetOwner()
 end
 function s.damcon(e,tp,eg,ep,ev,re,r,rp)
 	return not e:GetHandler():IsStatus(STATUS_BATTLE_DESTROYED) and re:IsActiveType(TYPE_MONSTER) and re:IsAttribute(ATTRIBUTE_DARK)
