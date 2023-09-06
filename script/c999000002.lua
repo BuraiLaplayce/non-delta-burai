@@ -35,7 +35,7 @@ function s.initial_effect(c)
 	e3:SetOperation(s.damop)
 	c:RegisterEffect(e3)
 end
-s.listed_names={id,CARD_REDEYES_B_DRAGON}
+s.listed_names={CARD_REDEYES_B_DRAGON}
 function s.tgfilter(c)
 	return c:IsCode(CARD_REDEYES_B_DRAGON) and c:IsAbleToGraveAsCost()
 end
