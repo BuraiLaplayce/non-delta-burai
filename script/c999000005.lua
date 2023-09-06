@@ -33,7 +33,8 @@ function s.initial_effect(c)
 end
 s.listed_names={CARD_REDEYES_B_DRAGON}
 function s.ovfilter(c,tp,lc)
-	return c:IsFaceup() and c:GetRank()==7 and c:IsType(TYPE_XYZ,lc,SUMMON_TYPE_XYZ,tp) and c:IsAttribute(ATTRIBUTE_DARK) and c:IsRace(RACE_MACHINE,lc,SUMMON_TYPE_XYZ,tp)
+	return c:IsFaceup() and c:GetRank()==7 and c:IsType(TYPE_XYZ,lc,SUMMON_TYPE_XYZ,tp) 
+	and c:IsAttribute(ATTRIBUTE_DARK,lc,SUMMON_TYPE_XYZ,tp) and c:IsRace(RACE_DRAGON,lc,SUMMON_TYPE_XYZ,tp)
 end
 function s.xyzop(e,tp,chk)
 	if chk==0 then return Duel.GetFlagEffect(tp,id)==0 end
