@@ -38,3 +38,5 @@ All the artworks used on this mod where picked up from [Deviantart](https://www.
 [Ray-V-Xyz](https://www.deviantart.com/ray-v-xyz)
 
 [PrimeAceJohn](https://www.deviantart.com/primeacejohn)
+
+[Demon1Ce-Ace](https://www.deviantart.com/demon1ce-ace)
