@@ -79,7 +79,8 @@ function s.ffilter(c)
 end
 function s.efcon(e,tp,eg,ep,ev,re,r,rp)
 	local ec=e:GetHandler():GetReasonCard()
-	return not ec:GetMaterial():IsExists(s.ffilter,1,nil) and ec:GetReasonCard():IsRace(RACE_WARRIOR)
+	local c=e:GetHandler()
+	return not ec:GetMaterial():IsExists(s.ffilter,1,nil) and c:GetReasonCard():IsRace(RACE_WARRIOR)
 	and r==REASON_XYZ
 end
 --A Xyz monster using this card cannot be targeted or destroyed by op card effects
