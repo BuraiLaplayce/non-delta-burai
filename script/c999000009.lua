@@ -21,7 +21,7 @@ function s.initial_effect(c)
 	e2:SetRange(LOCATION_MZONE)
 	e2:SetCountLimit(1,{id,1})
 	e2:SetTarget(s.tgtg)
-	e21:SetOperation(s.tgop)
+	e2:SetOperation(s.tgop)
 	c:RegisterEffect(e2)
 	--Add this card from GY to hand
 	local e3=Effect.CreateEffect(c)
