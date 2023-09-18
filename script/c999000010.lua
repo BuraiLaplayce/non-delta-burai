@@ -3,7 +3,7 @@
 local s,id=GetID()
 function s.initial_effect(c)
 	--xyz summon
-	Xyz.AddProcedure(c,aux.FilterBoolFunctionEx(Card.IsSetCard,0x6f),4,2,s.ovfilter,aux.Stringid(id,0),3,s.xyzop)
+	Xyz.AddProcedure(c,aux.FilterBoolFunctionEx(Card.IsSetCard,0x6f),4,2,s.ovfilter,aux.Stringid(id,0),2,s.xyzop)
 	c:EnableReviveLimit()
 	--Cannot activate
 	local e1=Effect.CreateEffect(c)
