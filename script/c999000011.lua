@@ -34,6 +34,9 @@ function s.initial_effect(c)
 	c:RegisterEffect(e3)
 end
 s.listed_series={0x4c,0x89,0x108a}
+function s.is_normal_hole(c)
+	return c:IsNormalTrap() and c:IsSetCard({SET_TRAP_HOLE,SET_HOLE})
+end
 function s.spcfilter(c)
 	return c:GetType()==TYPE_TRAP and c:IsNormalTrap() and c:IsAbleToGraveAsCost()
 end
