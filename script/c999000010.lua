@@ -31,6 +31,22 @@ function s.initial_effect(c)
 	e3:SetCode(EFFECT_REFLECT_BATTLE_DAMAGE)
 	e3:SetValue(1)
 	c:RegisterEffect(e3)
+	--Effect+Battle Damage Gain 500 LP
+	local e4=Effect.CreateEffect(c)
+	e4:SetType(EFFECT_TYPE_FIELD+EFFECT_TYPE_CONTINUOUS)
+	e4:SetCode(EVENT_DAMAGE)
+	e4:SetRange(LOCATION_MZONE)
+	e4:SetCondition(s.reccon)
+	e4:SetOperation(s.recop)
+	c:RegisterEffect(e4)
+	--Destroy Replace Battle
+	local e2=Effect.CreateEffect(c)
+	e2:SetType(EFFECT_TYPE_FIELD+EFFECT_TYPE_CONTINUOUS)
+	e2:SetCode(EFFECT_DESTROY_REPLACE)
+	e2:SetRange(LOCATION_MZONE)
+	e2:SetTarget(s.reptg)
+	e2:SetValue(s.repval)
+	c:RegisterEffect(e2)
 end
 s.listed_series={0x6f}
 function s.ovfilter(c,tp,lc)
@@ -49,4 +65,28 @@ function s.aclimit(e,re,tp)
 end
 function s.refcon(e,re,val,r,rp,rc)
 	return (r&REASON_EFFECT)~=0 and rp==1-e:GetHandlerPlayer()
+end
+function s.reccon(e,tp,eg,ep,ev,re,r,rp)
+	return ep~=tp and (r&REASON_EFFECT+REASON_BATTLE)~=0
+end
+function s.recop(e,tp,eg,ep,ev,re,r,rp)
+	local c=e:GetHandler()
+	if not c:IsLocation(LOCATION_MZONE) or not c:IsFaceup() or not c:IsOnField() then return end
+	Duel.Recover(tp,500,REASON_EFFECT)
+end
+function s.repfilter(c,tp)
+	return c:IsControler(tp) and c:IsLocation(LOCATION_ONFIELD) and c:IsMonster()
+		and c:IsReason(REASON_BATTLE) and not c:IsReason(REASON_REPLACE)
+end
+function s.reptg(e,tp,eg,ep,ev,re,r,rp,chk)
+	local c=e:GetHandler()
+	local g=c:GetLinkedGroup()
+	if chk==0 then return eg:IsExists(s.repfilter,1,nil,tp) and c:CheckRemoveOverlayCard(tp,1,REASON_EFFECT) end
+	if Duel.SelectEffectYesNo(tp,c,aux.Stringid(id,1)) then
+		c:RemoveOverlayCard(tp,1,1,REASON_EFFECT)
+		return true
+	else return false end
+end
+function s.repval(e,c)
+	return s.repfilter(c,e:GetHandlerPlayer())
 end
