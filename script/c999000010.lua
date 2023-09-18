@@ -14,6 +14,23 @@ function s.initial_effect(c)
 	e1:SetTargetRange(1,1)
 	e1:SetValue(s.aclimit)
 	c:RegisterEffect(e1)
+	--Reflect Effect Damage
+	local e2=Effect.CreateEffect(c)
+	e2:SetType(EFFECT_TYPE_FIELD)
+	e2:SetCode(EFFECT_REFLECT_DAMAGE)
+	e2:SetRange(LOCATION_MZONE)
+	e2:SetProperty(EFFECT_FLAG_PLAYER_TARGET)
+	e2:SetTargetRange(1,0)
+	e2:SetValue(s.refcon)
+	c:RegisterEffect(e2)
+	--Reflect Battle Damage
+	local e3=Effect.CreateEffect(c)
+	e3:SetType(EFFECT_TYPE_FIELD)
+	e3:SetRange(LOCATION_MZONE)
+	e3:SetTargetRange(LOCATION_MZONE,0)
+	e3:SetCode(EFFECT_REFLECT_BATTLE_DAMAGE)
+	e3:SetValue(1)
+	c:RegisterEffect(e3)
 end
 s.listed_series={0x6f}
 function s.ovfilter(c,tp,lc)
@@ -29,4 +46,7 @@ function s.aclimit(e,re,tp)
 	local tc=re:GetHandler()
 	return tc:IsLocation(LOCATION_MZONE) and tc:IsFaceup() and tc:GetBattledGroupCount()==0
 	and re:IsActiveType(TYPE_MONSTER)
+end
+function s.refcon(e,re,val,r,rp,rc)
+	return (r&REASON_EFFECT)~=0 and rp==1-e:GetHandlerPlayer()
 end
