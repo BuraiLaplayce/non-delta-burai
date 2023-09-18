@@ -27,6 +27,6 @@ function s.xyzop(e,tp,chk)
 end
 function s.aclimit(e,re,tp)
 	local tc=re:GetHandler()
-	return tc:IsLocation(LOCATION_MZONE) and tc:IsFaceup() and tc:GetBattledGroupCount()>0
+	return tc:IsLocation(LOCATION_MZONE) and tc:IsFaceup() and tc:GetBattledGroupCount()==0
 	and re:IsActiveType(TYPE_MONSTER)
 end
