@@ -76,7 +76,7 @@ function s.thactivate(e,tp,eg,ep,ev,re,r,rp)
 	Duel.RegisterEffect(e2,tp)
 end
 function s.sumlimit(e,c,sump,sumtype,sumpos,targetp)
-	return not c:IsRace(RACE_INSECT) or not c:IsRace(RACE_PLANT)
+	return not (c:IsRace(RACE_INSECT) or c:IsRace(RACE_PLANT))
 end
 function s.handcon(e)
 	return Duel.GetFieldGroupCount(e:GetHandlerPlayer(),LOCATION_ONFIELD,0)==0
