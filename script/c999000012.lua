@@ -26,11 +26,11 @@ function s.thcost(e,tp,eg,ep,ev,re,r,rp,chk)
 	Duel.DiscardHand(tp,Card.IsDiscardable,1,1,REASON_COST+REASON_DISCARD)
 end
 function s.filter1(c)
-	return c:IsNormalTrap() and c:IsSetCard({SET_TRAP_HOLE,SET_HOLE})
-	and c:IsAbleToHand()
+	return c:IsSetCard(0x108a) and c:IsMonster() and c:IsAbleToHand()
 end
 function s.filter2(c)
-	return c:IsSetCard(0x108a) and c:IsMonster() and c:IsAbleToHand()
+	return c:IsNormalTrap() and c:IsSetCard({SET_TRAP_HOLE,SET_HOLE})
+	and c:IsAbleToHand()
 end
 function s.thtg(e,tp,eg,ep,ev,re,r,rp,chk)
 	if chk==0 then return Duel.IsExistingMatchingCard(s.filter1,tp,LOCATION_DECK,0,1,nil)
