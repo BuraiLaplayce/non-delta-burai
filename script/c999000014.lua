@@ -21,6 +21,17 @@ function s.initial_effect(c)
 	e2:SetTarget(s.thtg)
 	e2:SetOperation(s.thop)
 	c:RegisterEffect(e2)
+	--Special Summon PSY-Frame and Synchro Summon
+	local e3=Effect.CreateEffect(c)
+	e3:SetDescription(aux.Stringid(id,1))
+	e3:SetCategory(CATEGORY_SPECIAL_SUMMON)
+	e3:SetType(EFFECT_TYPE_QUICK_O)
+	e3:SetRange(LOCATION_MZONE)
+	e3:SetCode(EVENT_FREE_CHAIN)
+	e3:SetCost(s.spcost)
+	e3:SetTarget(s.sptg)
+	e3:SetOperation(s.spop)
+	c:RegisterEffect(e3)
 end
 s.listed_names={CARD_PSYFRAME_DRIVER}
 s.listed_series={0x10c1}
@@ -44,5 +55,25 @@ function s.thop(e,tp,eg,ep,ev,re,r,rp)
 		Duel.ConfirmCards(1-tp,g)
 		local atk=g:GetFirst():GetTextAttack()
 		Duel.SetLP(tp,Duel.GetLP(tp)-atk)
+	end
+end
+function s.spcost(e,tp,eg,ep,ev,re,r,rp,chk)
+	if chk==0 then return e:GetHandler():IsAbleToHandAsCost() end
+	Duel.SendtoHand(e:GetHandler(),nil,REASON_COST)
+end
+function s.spfilter(c,e,tp)
+	return c:IsSetCard(0xc1) and c:IsType(TYPE_NORMAL) and c:IsCanBeSpecialSummoned(e,0,tp,false,false)
+end
+function s.sptg(e,tp,eg,ep,ev,re,r,rp,chk)
+	if chk==0 then return Duel.GetLocationCount(tp,LOCATION_MZONE)>0
+		and Duel.IsExistingMatchingCard(s.spfilter,tp,0x13,0,1,nil,e,tp) end
+	Duel.SetOperationInfo(0,CATEGORY_SPECIAL_SUMMON,nil,1,tp,0x13)
+end
+function s.spop(e,tp,eg,ep,ev,re,r,rp)
+	if Duel.GetLocationCount(tp,LOCATION_MZONE)<=0 then return end
+	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_SPSUMMON)
+	local g=Duel.SelectMatchingCard(tp,aux.NecroValleyFilter(s.spfilter),tp,0x13,0,1,1,nil,e,tp)
+	if #g>0 then
+		Duel.SpecialSummon(g,0,tp,tp,false,false,POS_FACEUP)
 	end
 end
