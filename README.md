@@ -42,5 +42,3 @@ All the artworks used on this mod where picked up from [Deviantart](https://www.
 [Demon1Ce-Ace](https://www.deviantart.com/demon1ce-ace)
 
 [AriesZarc](https://www.deviantart.com/arieszarc)
-
-[KrysFun](https://www.deviantart.com/krysfun)
