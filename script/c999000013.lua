@@ -17,6 +17,7 @@ function s.initial_effect(c)
 	e2:SetType(EFFECT_TYPE_FIELD+EFFECT_TYPE_TRIGGER_O)
 	e2:SetRange(LOCATION_HAND)
 	e2:SetCode(EVENT_CHAINING)
+	e2:SetProperty(EFFECT_FLAG_DAMAGE_STEP+EFFECT_FLAG_DAMAGE_CAL)
 	e2:SetCondition(s.condition)
 	e2:SetTarget(s.target)
 	e2:SetOperation(s.operation)
@@ -36,10 +37,10 @@ function s.spfilter2(c,e,tp)
 	return c:IsCode(CARD_PSYFRAME_DRIVER) and c:IsCanBeSpecialSummoned(e,0,tp,false,false) and Duel.IsExistingMatchingCard(s.thfilter0,tp,LOCATION_DECK,0,1,c)
 end
 function s.thfilter0(c)
-	return c:IsSetCard(0xc1) and c:IsSpellTrap() and not c:IsCode(id)
+	return c:IsSetCard(0xc1) and c:IsSpellTrap()
 end
 function s.thfilter(c)
-	return c:IsSetCard(0xc1) and c:IsSpellTrap() and not c:IsCode(id) and c:IsAbleToHand()
+	return c:IsSetCard(0xc1) and c:IsSpellTrap() and c:IsAbleToHand()
 end
 function s.target(e,tp,eg,ep,ev,re,r,rp,chk)
 	if chk==0 then return not Duel.IsPlayerAffectedByEffect(tp,CARD_BLUEEYES_SPIRIT)
@@ -81,4 +82,20 @@ function s.operation(e,tp,eg,ep,ev,re,r,rp)
 		Duel.SendtoHand(g2,nil,REASON_EFFECT)
 		Duel.ConfirmCards(1-tp,g2)
 	end
+end
+function s.rmfilter(c,fid)
+	return c:GetFlagEffectLabel(id)==fid
+end
+function s.rmcon(e,tp,eg,ep,ev,re,r,rp)
+	local g=e:GetLabelObject()
+	if not g:IsExists(s.rmfilter,1,nil,e:GetLabel()) then
+		g:DeleteGroup()
+		e:Reset()
+		return false
+	else return true end
+end
+function s.rmop(e,tp,eg,ep,ev,re,r,rp)
+	local g=e:GetLabelObject()
+	local tg=g:Filter(s.rmfilter,nil,e:GetLabel())
+	Duel.Remove(tg,POS_FACEUP,REASON_EFFECT)
 end
