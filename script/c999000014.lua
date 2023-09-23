@@ -86,7 +86,7 @@ function s.spop(e,tp,eg,ep,ev,re,r,rp)
 		if #mg>0 and #syng>0 and Duel.SelectYesNo(tp,aux.Stringid(id,2)) then
 			Duel.BreakEffect()
 			Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_SPSUMMON)
-			local sg=syng:select(tp,1,1,nil)
+			local sg=syng:Select(tp,1,1,nil)
 			Duel.SynchroSummon(tp,sg:GetFirst(),nil,mg)
 		end
 	end
