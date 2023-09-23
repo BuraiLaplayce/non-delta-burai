@@ -32,6 +32,7 @@ function s.sptg(e,tp,eg,ep,ev,re,r,rp,chk)
 		and Duel.IsExistingMatchingCard(s.spfilter1,tp,0x13,0,1,nil,e,tp) end
 	Duel.SetOperationInfo(0,CATEGORY_SPECIAL_SUMMON,nil,2,tp,LOCATION_HAND+LOCATION_DECK+LOCATION_GRAVE)
 end
+--missing the banishing effect
 function s.spop(e,tp,eg,ep,ev,re,r,rp)
 	if Duel.GetLocationCount(tp,LOCATION_MZONE)<2
 		or Duel.IsPlayerAffectedByEffect(tp,CARD_BLUEEYES_SPIRIT) then return end
@@ -42,5 +43,28 @@ function s.spop(e,tp,eg,ep,ev,re,r,rp)
 	g1:Merge(g2)
 	if #g1==2 then
 		Duel.SpecialSummon(g1,0,tp,tp,false,false,POS_FACEUP)
+		local tc=g1:GetFirst()
+		if tc then
+			tc:RegisterFlagEffect(id,RESET_EVENT+RESETS_STANDARD+RESET_PHASE+PHASE_END,0,1,fid)
+			local e1=Effect.CreateEffect(c)
+			e1:SetType(EFFECT_TYPE_FIELD+EFFECT_TYPE_CONTINUOUS)
+			e1:SetCode(EVENT_PHASE+PHASE_END)
+			e1:SetProperty(EFFECT_FLAG_IGNORE_IMMUNE)
+			e1:SetCountLimit(1)
+			e1:SetLabel(fid)
+			e1:SetLabelObject(tc)
+			e1:SetCondition(s.rmcon)
+			e1:SetOperation(s.rmop)
+			e1:SetReset(RESET_PHASE+PHASE_END)
+			Duel.RegisterEffect(e1,tp)
+		end
 	end
+end
+function s.rmcon(e,tp,eg,ep,ev,re,r,rp)
+	local tc=e:GetLabelObject()
+	return tc:GetFlagEffectLabel(id)==e:GetLabel()
+end
+function s.rmop(e,tp,eg,ep,ev,re,r,rp)
+	local tc=e:GetLabelObject()
+	Duel.Remove(tc,POS_FACEUP,REASON_EFFECT)
 end
