@@ -69,11 +69,25 @@ function s.sptg(e,tp,eg,ep,ev,re,r,rp,chk)
 		and Duel.IsExistingMatchingCard(s.spfilter,tp,0x13,0,1,nil,e,tp) end
 	Duel.SetOperationInfo(0,CATEGORY_SPECIAL_SUMMON,nil,1,tp,0x13)
 end
+function s.smfilter(c)
+	return c:IsFaceup() and c:IsSetCard(0xc1)
+end
+function s.synfilter(c,mg)
+	return c:IsRace(RACE_PSYCHIC) and c:IsSynchroSummonable(nil,mg)
+end
 function s.spop(e,tp,eg,ep,ev,re,r,rp)
 	if Duel.GetLocationCount(tp,LOCATION_MZONE)<=0 then return end
 	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_SPSUMMON)
 	local g=Duel.SelectMatchingCard(tp,aux.NecroValleyFilter(s.spfilter),tp,0x13,0,1,1,nil,e,tp)
 	if #g>0 then
 		Duel.SpecialSummon(g,0,tp,tp,false,false,POS_FACEUP)
+		local mg=Duel.GetMatchingGroup(s.smfilter,tp,LOCATION_MZONE,0,nil)
+		local syng=Duel.GetMatchingGroup(s.synfilter,tp,LOCATION_EXTRA,0,nil,nil,mg)
+		if #mg>0 and #syng>0 and Duel.SelectYesNo(tp,aux.Stringid(id,2)) then
+			Duel.BreakEffect()
+			Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_SPSUMMON)
+			local sg=syng:select(tp,1,1,nil)
+			Duel.SynchroSummon(tp,sg:GetFirst(),nil,mg)
+		end
 	end
 end
