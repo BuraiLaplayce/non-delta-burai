@@ -24,7 +24,7 @@ function s.poscost(e,tp,eg,ep,ev,re,r,rp,chk)
 	Duel.SendtoGrave(g,REASON_COST)
 end
 function s.posfilter(c)
-	return c:IsMonster() and ((c:IsFacedown()) or (c:IsFaceup() and c:IsCanTurnSet()))
+	return c:IsMonster() and ((c:IsFacedown()) or (c:IsFaceup()) or (c:IsFaceup() and c:IsCanTurnSet()))
 end
 function s.postg(e,tp,eg,ep,ev,re,r,rp,chk,chkc)
 	local c=e:GetHandler()
