@@ -32,7 +32,7 @@ function s.sptg(e,tp,eg,ep,ev,re,r,rp,chk)
 		and Duel.IsExistingMatchingCard(s.spfilter1,tp,0x13,0,1,nil,e,tp) end
 	Duel.SetOperationInfo(0,CATEGORY_SPECIAL_SUMMON,nil,2,tp,LOCATION_HAND+LOCATION_DECK+LOCATION_GRAVE)
 end
---missing the banishing effect
+--need to fix the banishing effect
 function s.spop(e,tp,eg,ep,ev,re,r,rp)
 	if Duel.GetLocationCount(tp,LOCATION_MZONE)<2
 		or Duel.IsPlayerAffectedByEffect(tp,CARD_BLUEEYES_SPIRIT) then return end
@@ -47,20 +47,33 @@ function s.spop(e,tp,eg,ep,ev,re,r,rp)
 		Duel.SpecialSummon(g3,0,tp,tp,false,false,POS_FACEUP)
 		local tc1=g1:GetFirst()
 		local tc2=g2:GetFirst()
-		if tc1 and tc2 then
+		if tc1 then
 			tc1:RegisterFlagEffect(id,RESET_EVENT+RESETS_STANDARD+RESET_PHASE+PHASE_END,0,1,fid)
-			tc2:RegisterFlagEffect(id,RESET_EVENT+RESETS_STANDARD+RESET_PHASE+PHASE_END,0,1,fid)
 			local e1=Effect.CreateEffect(c)
 			e1:SetType(EFFECT_TYPE_FIELD+EFFECT_TYPE_CONTINUOUS)
 			e1:SetCode(EVENT_PHASE+PHASE_END)
 			e1:SetProperty(EFFECT_FLAG_IGNORE_IMMUNE)
 			e1:SetCountLimit(1)
 			e1:SetLabel(fid)
-			e1:SetLabelObject(tc1,tc2)
+			e1:SetLabelObject(tc1)
 			e1:SetCondition(s.rmcon)
 			e1:SetOperation(s.rmop)
 			e1:SetReset(RESET_PHASE+PHASE_END)
 			Duel.RegisterEffect(e1,tp)
+		end
+		if tc2 then
+			tc2:RegisterFlagEffect(id,RESET_EVENT+RESETS_STANDARD+RESET_PHASE+PHASE_END,0,1,fid)
+			local e2=Effect.CreateEffect(c)
+			e2:SetType(EFFECT_TYPE_FIELD+EFFECT_TYPE_CONTINUOUS)
+			e2:SetCode(EVENT_PHASE+PHASE_END)
+			e2:SetProperty(EFFECT_FLAG_IGNORE_IMMUNE)
+			e2:SetCountLimit(1)
+			e2:SetLabel(fid)
+			e2:SetLabelObject(tc2)
+			e2:SetCondition(s.rmcon)
+			e2:SetOperation(s.rmop)
+			e2:SetReset(RESET_PHASE+PHASE_END)
+			Duel.RegisterEffect(e2,tp)
 		end
 	end
 end
