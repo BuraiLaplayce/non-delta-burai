@@ -39,15 +39,13 @@ function s.posop(e,tp,eg,ep,ev,re,r,rp,chk)
 	local tc=g:GetFirst()
 	if tc then
 		if tc:IsPosition(POS_FACEUP_DEFENSE) then
-			Duel.ChangePosition(tc,POS_FACEDOWN_DEFENSE)
+			Duel.ChangePosition(tc,POS_FACEDOWN_DEFENSE) end
 		else 
 			if tc:IsPosition(POS_FACEDOWN_DEFENSE) then
-				Duel.ChangePosition(tc,POS_FACEUP_DEFENSE)
-			end
+				Duel.ChangePosition(tc,POS_FACEUP_DEFENSE) end
 		else 
 			if tc:IsPosition(POS_FACEUP_ATTACK) and not c:IsCanTurnSet() then
-				Duel.ChangePosition(tc,POS_FACEUP_DEFENSE)
-			end
+				Duel.ChangePosition(tc,POS_FACEUP_DEFENSE) end
 		else 
 			local pos=Duel.SelectPosition(tp,tc,POS_FACEUP_DEFENSE|POS_FACEDOWN_DEFENSE)
 			Duel.ChangePosition(tc,pos)
