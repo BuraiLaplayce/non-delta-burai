@@ -28,13 +28,13 @@ function s.posfilter(c)
 end
 function s.postg(e,tp,eg,ep,ev,re,r,rp,chk,chkc)
 	if chkc then return chkc:IsLocation(LOCATION_MZONE) and s.posfilter(chkc) and chkc~=e:GetHandler() end
-	if chk==0 then return Duel.IsExistingMatchingCard(s.posfilter,tp,LOCATION_MZONE,0,1,e:GetHandler()) end
+	if chk==0 then return Duel.IsExistingMatchingCard(s.posfilter,tp,LOCATION_MZONE,1,1,e:GetHandler()) end
 	Duel.SetOperationInfo(0,CATEGORY_POSITION,nil,1,0,0)
 end
 function s.posop(e,tp,eg,ep,ev,re,r,rp,chk)
 	if not e:GetHandler():IsRelateToEffect(e) then return end
 	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_POSCHANGE)
-	local g=Duel.SelectMatchingCard(tp,s.posfilter,tp,LOCATION_MZONE,0,1,1,e:GetHandler())
+	local g=Duel.SelectMatchingCard(tp,s.posfilter,tp,LOCATION_MZONE,1,1,1,e:GetHandler())
 	local tc=g:GetFirst()
 	if tc then
 		if tc:IsPosition(POS_FACEUP_DEFENSE) then
@@ -47,5 +47,17 @@ function s.posop(e,tp,eg,ep,ev,re,r,rp,chk)
 			local pos=Duel.SelectPosition(tp,tc,POS_FACEUP_DEFENSE|POS_FACEDOWN_DEFENSE)
 			Duel.ChangePosition(tc,pos)
 		end
+	end
+end
+function s.destg(e,tp,eg,ep,ev,re,r,rp,chk)
+	local g=Duel.GetMatchingGroup(nil,tp,LOCATION_ONFIELD,LOCATION_ONFIELD,nil)
+	if chk==0 then return #g>0 end
+	Duel.SetOperationInfo(0,CATEGORY_DESTROY,g,1,PLAYER_ALL,LOCATION_ONFIELD)
+end
+function s.desop(e,tp,eg,ep,ev,re,r,rp)
+	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_DESTROY)
+	local g=Duel.SelectMatchingCard(tp,nil,tp,LOCATION_ONFIELD,LOCATION_ONFIELD,1,1,nil)
+	if #g>0 then
+		Duel.Destroy(g,REASON_EFFECT)
 	end
 end
