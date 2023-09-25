@@ -34,7 +34,7 @@ end
 function s.posop(e,tp,eg,ep,ev,re,r,rp,chk)
 	if not e:GetHandler():IsRelateToEffect(e) then return end
 	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_POSCHANGE)
-	local g=Duel.SelectMatchingCard(tp,s.posfilter,tp,LOCATION_MZONE,0,1,1,nil)
+	local g=Duel.SelectMatchingCard(tp,s.posfilter,tp,LOCATION_MZONE,0,1,1,e:GetHandler())
 	local tc=g:GetFirst()
 	if tc then
 		if tc:IsPosition(POS_FACEUP_DEFENSE) then

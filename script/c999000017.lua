@@ -45,7 +45,6 @@ function s.thop(e,tp,eg,ep,ev,re,r,rp)
 		Duel.ConfirmCards(1-tp,g)
 	end
 end
----------
 function s.spfilter(c,e,tp,tc)
 	return c:IsSetCard(0xa) and c:IsLevel(4) and c:IsCanBeSpecialSummoned(e,0,tp,false,false)
 		and Duel.IsExistingMatchingCard(s.xyzfilter,tp,LOCATION_EXTRA,0,1,nil,Group.FromCards(c,tc))
@@ -90,30 +89,5 @@ function s.spop(e,tp,eg,ep,ev,re,r,rp)
 	local xyz=Duel.SelectMatchingCard(tp,s.xyzfilter,tp,LOCATION_EXTRA,0,1,1,nil,sg):GetFirst()
 	if xyz then
 		Duel.XyzSummon(tp,xyz,nil,sg)
-	end
-end
-function s.efcon(e,tp,eg,ep,ev,re,r,rp)
-	return (r&REASON_XYZ)>0 and e:GetHandler():IsPreviousLocation(LOCATION_ONFIELD)
-end
-function s.efop(e,tp,eg,ep,ev,re,r,rp)
-	local c=e:GetHandler()
-	local rc=c:GetReasonCard()
-	--Increase ATK
-	local e1=Effect.CreateEffect(rc)
-	e1:SetType(EFFECT_TYPE_SINGLE)
-	e1:SetProperty(EFFECT_FLAG_SINGLE_RANGE)
-	e1:SetCode(EFFECT_UPDATE_ATTACK)
-	e1:SetRange(LOCATION_MZONE)
-	e1:SetValue(function(_,c) return c:GetOverlayCount()*300 end)
-	e1:SetReset(RESET_EVENT|RESETS_STANDARD)
-	rc:RegisterEffect(e1,true)
-	if not rc:IsType(TYPE_EFFECT) then
-		--Treated as an Effect Monster
-		local e2=Effect.CreateEffect(c)
-		e2:SetType(EFFECT_TYPE_SINGLE)
-		e2:SetCode(EFFECT_ADD_TYPE)
-		e2:SetValue(TYPE_EFFECT)
-		e2:SetReset(RESET_EVENT|RESETS_STANDARD)
-		rc:RegisterEffect(e2,true)
 	end
 end
