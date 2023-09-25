@@ -24,7 +24,7 @@ function s.poscost(e,tp,eg,ep,ev,re,r,rp,chk)
 	Duel.SendtoGrave(g,REASON_COST)
 end
 function s.cgfilter(c)
-	return c:IsMonster() and c:IsCanTurnSet()
+	return c:IsMonster()
 end
 function s.postg(e,tp,eg,ep,ev,re,r,rp,chk)
 	local c=e:GetHandler()
