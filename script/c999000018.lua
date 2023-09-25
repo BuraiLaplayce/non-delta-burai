@@ -24,7 +24,7 @@ function s.poscost(e,tp,eg,ep,ev,re,r,rp,chk)
 	Duel.SendtoGrave(g,REASON_COST)
 end
 function s.posfilter(c)
-	return c:IsMonster() and ((c:IsFacedown()) or (c:IsFaceup()) or (c:IsFaceup() and c:IsCanTurnSet()))
+	return not c:IsPosition(POS_FACEUP) or c:IsCanTurnSet()
 end
 function s.postg(e,tp,eg,ep,ev,re,r,rp,chk,chkc)
 	local c=e:GetHandler()
@@ -38,9 +38,9 @@ function s.posop(e,tp,eg,ep,ev,re,r,rp,chk)
 	local g=Duel.SelectMatchingCard(tp,s.posfilter,tp,LOCATION_MZONE,0,1,1,nil)
 	local tc=g:GetFirst()
 	if tc then
-		if tc:IsFaceup() and tc:IsDefensePos() then
+		if tc:IsPosition(POS_FACEUP_DEFENSE) then
 			Duel.ChangePosition(tc,POS_FACEDOWN_DEFENSE)
-		else if tc:IsFacedown() and tc:IsDefensePos() then
+		else if tc:IsPosition(POS_FACEDOWN_DEFENSE) then
 			Duel.ChangePosition(tc,POS_FACEUP_DEFENSE)
 		else if tc:IsPosition(POS_FACEUP_ATTACK) and not c:IsCanTurnSet() then
 			Duel.ChangePosition(tc,POS_FACEUP_DEFENSE)
