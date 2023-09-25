@@ -45,8 +45,9 @@ function s.spop(e,tp,eg,ep,ev,re,r,rp)
 	local g3=g1:Merge(g2)
 	if #g3==2 then
 		Duel.SpecialSummon(g3,0,tp,tp,false,false,POS_FACEUP)
-		local tc1=g1:GetFirst()
-		local tc2=g2:GetFirst()
+		local tc1=g3:GetFirst()
+		--local tc1=g1:GetFirst()
+		--local tc2=g2:GetFirst()
 		if tc1 then
 			tc1:RegisterFlagEffect(id,RESET_EVENT+RESETS_STANDARD+RESET_PHASE+PHASE_END,0,1,fid)
 			local e1=Effect.CreateEffect(c)
@@ -61,20 +62,20 @@ function s.spop(e,tp,eg,ep,ev,re,r,rp)
 			e1:SetReset(RESET_PHASE+PHASE_END)
 			Duel.RegisterEffect(e1,tp)
 		end
-		if tc2 then
-			tc2:RegisterFlagEffect(id,RESET_EVENT+RESETS_STANDARD+RESET_PHASE+PHASE_END,0,1,fid)
-			local e2=Effect.CreateEffect(c)
-			e2:SetType(EFFECT_TYPE_FIELD+EFFECT_TYPE_CONTINUOUS)
-			e2:SetCode(EVENT_PHASE+PHASE_END)
-			e2:SetProperty(EFFECT_FLAG_IGNORE_IMMUNE)
-			e2:SetCountLimit(1)
-			e2:SetLabel(fid)
-			e2:SetLabelObject(tc2)
-			e2:SetCondition(s.rmcon)
-			e2:SetOperation(s.rmop)
-			e2:SetReset(RESET_PHASE+PHASE_END)
-			Duel.RegisterEffect(e2,tp)
-		end
+--		if tc2 then
+--			tc2:RegisterFlagEffect(id,RESET_EVENT+RESETS_STANDARD+RESET_PHASE+PHASE_END,0,1,fid)
+--			local e2=Effect.CreateEffect(c)
+--			e2:SetType(EFFECT_TYPE_FIELD+EFFECT_TYPE_CONTINUOUS)
+--			e2:SetCode(EVENT_PHASE+PHASE_END)
+--			e2:SetProperty(EFFECT_FLAG_IGNORE_IMMUNE)
+--			e2:SetCountLimit(1)
+--			e2:SetLabel(fid)
+--			e2:SetLabelObject(tc2)
+--			e2:SetCondition(s.rmcon)
+--			e2:SetOperation(s.rmop)
+--			e2:SetReset(RESET_PHASE+PHASE_END)
+--			Duel.RegisterEffect(e2,tp)
+--		end
 	end
 end
 function s.rmcon(e,tp,eg,ep,ev,re,r,rp)
