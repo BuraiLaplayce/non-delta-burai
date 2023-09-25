@@ -82,9 +82,18 @@ function s.spop(e,tp,eg,ep,ev,re,r,rp)
 --		end
 	end
 end
+function s.rmfilter(c,fid)
+	return c:GetFlagEffectLabel(id)==fid
+end
 function s.rmcon(e,tp,eg,ep,ev,re,r,rp)
-	local tc=e:GetLabelObject()
-	return tc:GetFlagEffectLabel(id)==e:GetLabel()
+	local g=e:GetLabelObject()
+	if not g:IsExists(s.rmfilter,1,nil,e:GetLabel()) then
+		g:DeleteGroup()
+		e:Reset()
+		return false
+	else
+		return true
+	end
 end
 function s.rmop(e,tp,eg,ep,ev,re,r,rp)
 	local tc=e:GetLabelObject()
