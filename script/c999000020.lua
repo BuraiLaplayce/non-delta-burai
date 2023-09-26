@@ -12,6 +12,18 @@ function s.initial_effect(c)
 	e1:SetRange(LOCATION_MZONE)
 	e1:SetOperation(s.cpop)
 	c:RegisterEffect(e1)
+	--material
+	local e2=Effect.CreateEffect(c)
+	e2:SetDescription(aux.Stringid(id,1))
+	e2:SetType(EFFECT_TYPE_QUICK_O)
+	e2:SetCode(EVENT_FREE_CHAIN)
+	e2:SetRange(LOCATION_MZONE)
+	e2:SetCountLimit(1,id)
+	e2:SetHintTiming(0,TIMINGS_CHECK_MONSTER+TIMING_MAIN_END)
+	e2:SetCondition(s.mtcon)
+	e2:SetTarget(s.mttg)
+	e2:SetOperation(s.mtop)
+	c:RegisterEffect(e2)
 end
 s.listed_series={0xa}
 s.listed_names={id}
@@ -68,5 +80,25 @@ function s.resetop(e,tp,eg,ep,ev,re,r,rp)
 	if not g:IsExists(s.codefilter,1,nil,e:GetLabelObject():GetLabel()) or c:IsDisabled() then
 		c:ResetEffect(e:GetLabel(),RESET_COPY)
 		c:ResetFlagEffect(e:GetLabelObject():GetLabel())
+	end
+end
+function s.mtcon(e,tp,eg,ep,ev,re,r,rp)
+	return Duel.GetCurrentPhase()==PHASE_MAIN1 or Duel.GetCurrentPhase()==PHASE_MAIN2
+end
+function s.mtfilter(c,e)
+	return c:IsLocation(LOCATION_GRAVE+LOCATION_EXTRA) and c:IsSetCard(0xa) and c:IsType(TYPE_XYZ) and not c:IsImmuneToEffect(e)
+end
+function s.mttg(e,tp,eg,ep,ev,re,r,rp,chk)
+	if chk==0 then return e:GetHandler():IsType(TYPE_XYZ)
+		and Duel.IsExistingMatchingCard(s.mtfilter,tp,LOCATION_GRAVE+LOCATION_EXTRA,0,1,nil,e) end
+end
+function s.mtop(e,tp,eg,ep,ev,re,r,rp)
+	local c=e:GetHandler()
+	if not c:IsRelateToEffect(e) or c:IsFacedown() then return end
+	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_XMATERIAL)
+	local g=Duel.SelectMatchingCard(tp,s.mtfilter,tp,LOCATION_GRAVE+LOCATION_EXTRA,0,1,1,nil,e)
+	local tc=g:GetFirst()
+	if tc then
+		Duel.Overlay(c,tc,true)
 	end
 end
