@@ -6,12 +6,12 @@ function s.initial_effect(c)
 	Xyz.AddProcedure(c,nil,5,4,s.ovfilter,aux.Stringid(id,0),4,s.xyzop)
 	c:EnableReviveLimit()
 	--copy
-	local e2=Effect.CreateEffect(c)
-	e2:SetType(EFFECT_TYPE_FIELD+EFFECT_TYPE_CONTINUOUS)
-	e2:SetCode(EVENT_ADJUST)
-	e2:SetRange(LOCATION_MZONE)
-	e2:SetOperation(s.cpop)
-	c:RegisterEffect(e2)
+	local e1=Effect.CreateEffect(c)
+	e1:SetType(EFFECT_TYPE_FIELD+EFFECT_TYPE_CONTINUOUS)
+	e1:SetCode(EVENT_ADJUST)
+	e1:SetRange(LOCATION_MZONE)
+	e1:SetOperation(s.cpop)
+	c:RegisterEffect(e1)
 end
 s.listed_series={0xa}
 s.listed_names={id}
