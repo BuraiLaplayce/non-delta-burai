@@ -86,7 +86,8 @@ function s.mtcon(e,tp,eg,ep,ev,re,r,rp)
 	return Duel.GetCurrentPhase()==PHASE_MAIN1 or Duel.GetCurrentPhase()==PHASE_MAIN2
 end
 function s.mtfilter(c,e)
-	return c:IsLocation(LOCATION_GRAVE+LOCATION_EXTRA) and c:IsSetCard(0xa) and c:IsType(TYPE_XYZ) and not c:IsImmuneToEffect(e)
+	return c:IsLocation(LOCATION_GRAVE+LOCATION_EXTRA) and c:IsSetCard(0xa) 
+	and c:IsType(TYPE_XYZ) and not c:IsCode(id) and not c:IsImmuneToEffect(e)
 end
 function s.mttg(e,tp,eg,ep,ev,re,r,rp,chk)
 	if chk==0 then return e:GetHandler():IsType(TYPE_XYZ)
