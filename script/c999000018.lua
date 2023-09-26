@@ -68,8 +68,9 @@ function s.spfilter(c,e,tp)
 end
 function s.sptg(e,tp,eg,ep,ev,re,r,rp,chk,chkc)
 	if chk==0 then return Duel.GetLocationCount(tp,LOCATION_MZONE)>0
-		and Duel.IsExistingMatchingCard(s.filter,tp,LOCATION_GRAVE+LOCATION_HAND,0,1,nil,e,tp) end
+		and Duel.IsExistingMatchingCard(s.spfilter,tp,LOCATION_GRAVE+LOCATION_HAND,0,1,nil,e,tp) end
 	Duel.SetOperationInfo(0,CATEGORY_SPECIAL_SUMMON,nil,1,tp,LOCATION_GRAVE+LOCATION_HAND)
+	Duel.SetPossibleOperationInfo(0,CATEGORY_POSITION,nil,1,tp,LOCATION_MZONE)
 end
 function s.spop(e,tp,eg,ep,ev,re,r,rp)
 	if Duel.GetLocationCount(tp,LOCATION_MZONE)<=0 then return end
@@ -77,5 +78,24 @@ function s.spop(e,tp,eg,ep,ev,re,r,rp)
 	local g=Duel.SelectMatchingCard(tp,aux.NecroValleyFilter(s.spfilter),tp,LOCATION_GRAVE+LOCATION_HAND,0,1,1,nil,e,tp)
 	if #g>0 then
 		Duel.SpecialSummon(g,0,tp,tp,false,false,POS_FACEUP_DEFENSE|POS_FACEDOWN_DEFENSE)
+		if Duel.IsExistingMatchingCard(s.posfilter,tp,LOCATION_MZONE,0,1,nil) and Duel.SelectYesNo(tp,aux.Stringid(id,2)) then
+			Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_POSCHANGE)
+			local g1=Duel.SelectMatchingCard(tp,s.posfilter,tp,LOCATION_MZONE,0,1,1,nil)
+			if #g1==0 then return end
+			local tc=g1:GetFirst()
+			Duel.BreakEffect()
+			if tc then
+				if tc:IsPosition(POS_FACEUP_DEFENSE) then
+					Duel.ChangePosition(tc,POS_FACEDOWN_DEFENSE)
+				elseif tc:IsPosition(POS_FACEDOWN_DEFENSE) then
+					Duel.ChangePosition(tc,POS_FACEUP_DEFENSE)
+				elseif tc:IsPosition(POS_FACEUP_ATTACK) and not tc:IsCanTurnSet() then
+					Duel.ChangePosition(tc,POS_FACEUP_DEFENSE)
+				else 
+					local pos=Duel.SelectPosition(tp,tc,POS_FACEUP_DEFENSE|POS_FACEDOWN_DEFENSE)
+					Duel.ChangePosition(tc,pos)
+				end
+			end			
+		end
 	end
 end
