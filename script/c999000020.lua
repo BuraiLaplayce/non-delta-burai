@@ -1,4 +1,4 @@
---Infestation Manifestation
+--Evilswarm Zerouboros
 --Scripted by Burai
 local s,id=GetID()
 function s.initial_effect(c)
