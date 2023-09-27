@@ -64,7 +64,7 @@ function s.spcost(e,tp,eg,ep,ev,re,r,rp,chk)
 	Duel.ChangePosition(e:GetHandler(),POS_FACEDOWN_DEFENSE)
 end
 function s.spfilter(c,e,tp)
-	return c:IsSetCard(0xa) and c:IsCanBeSpecialSummoned(e,0,tp,false,false)
+	return c:IsSetCard(0xa) and c:IsCanBeSpecialSummoned(e,0,tp,false,false,POS_FACEUP_DEFENSE|POS_FACEDOWN_DEFENSE)
 end
 function s.sptg(e,tp,eg,ep,ev,re,r,rp,chk,chkc)
 	if chk==0 then return Duel.GetLocationCount(tp,LOCATION_MZONE)>0
