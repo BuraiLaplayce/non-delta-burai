@@ -77,7 +77,7 @@ function s.clop(e,tp,eg,ep,ev,re,r,rp)
 	end
 end
 function s.thfiltercost(c)
-	return c:IsFaceup() and c:IsType(TYPE_SPELL+TYPE_TRAP) and c:IsLevelAbove(0) and c:IsAbleToHandAsCost()
+	return c:IsFaceup() and c:IsType(TYPE_SPELL+TYPE_TRAP) and c:IsAbleToHandAsCost()
 end
 function s.apcost(e,tp,eg,ep,ev,re,r,rp,chk)
 	local ft=Duel.GetLocationCount(tp,LOCATION_ONFIELD)
