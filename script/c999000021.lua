@@ -26,6 +26,17 @@ function s.initial_effect(c)
 	e3:SetTarget(s.cltg)
 	e3:SetOperation(s.clop)
 	c:RegisterEffect(e3)
+	--Apply effects
+	local e4=Effect.CreateEffect(c)
+	e4:SetDescription(aux.Stringid(id,2))
+	e4:SetCategory(CATEGORY_SPECIAL_SUMMON)
+	e4:SetType(EFFECT_TYPE_IGNITION)
+	e4:SetRange(LOCATION_GRAVE)
+	e4:SetCountLimit(1,{id,2})
+	e4:SetCost(s.apcost)
+	e4:SetTarget(s.aptg)
+	e4:SetOperation(s.apop)
+	c:RegisterEffect(e4)
 end
 s.listed_series={0x53}
 s.listed_names={id}
@@ -63,5 +74,63 @@ function s.clop(e,tp,eg,ep,ev,re,r,rp)
 		e1:SetValue(1)
 		e1:SetReset(RESET_EVENT+RESETS_STANDARD+RESET_PHASE+PHASE_END)
 		tc:RegisterEffect(e1)
+	end
+end
+function s.thfiltercost(c)
+	return c:IsFaceup() and c:IsType(TYPE_SPELL+TYPE_TRAP) and c:IsLevelAbove(0) and c:IsAbleToHandAsCost()
+end
+function s.apcost(e,tp,eg,ep,ev,re,r,rp,chk)
+	local ft=Duel.GetLocationCount(tp,LOCATION_ONFIELD)
+	if chk==0 then
+		if ft<0 then return false end
+		if ft==0 then
+			return Duel.IsExistingMatchingCard(s.thfiltercost,tp,LOCATION_ONFIELD,0,1,nil)
+		end
+	end
+	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_RTOHAND)
+	if ft==0 then
+		local g=Duel.SelectMatchingCard(tp,s.thfiltercost,tp,LOCATION_ONFIELD,0,1,1,nil)
+		Duel.SendtoHand(g,nil,REASON_COST)
+	end
+end
+function s.mtfilter(c)
+	return c:IsFaceup() and c:IsType(TYPE_XYZ) and c:IsAttribute(ATTRIBUTE_LIGHT) --and not c:IsImmuneToEffect()
+end
+function s.aptg(e,tp,eg,ep,ev,re,r,rp,chk)
+	local c=e:GetHandler()
+	if chk==0 then return 
+		(Duel.GetLocationCount(tp,LOCATION_MZONE)>0 and c:IsCanBeSpecialSummoned(e,0,tp,false,false,POS_FACEUP))
+		or Duel.IsExistingMatchingCard(s.mtfilter,tp,LOCATION_MZONE,0,1,nil) end
+	Duel.SetPossibleOperationInfo(0,CATEGORY_SPECIAL_SUMMON,c,1,tp,LOCATION_GRAVE)
+	Duel.SetPossibleOperationInfo(0,CATEGORY_LEAVE_GRAVE,c,1,0,0)
+end
+function s.apop(e,tp,eg,ep,ev,re,r,rp)
+	local c=e:GetHandler()
+	local mttg=Duel.GetMatchingGroup(s.mtfilter,tp,LOCATION_MZONE,0,nil,e,tp)
+	local b1=#c>0 and Duel.GetLocationCount(tp,LOCATION_MZONE)>0
+	local b2=#mttg>0
+	local op=Duel.SelectEffect(tp,
+		{b1,aux.Stringid(id,3)},
+		{b2,aux.Stringid(id,4)})
+	if op==1 then
+		Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_SPSUMMON)
+		if c:IsRelateToEffect(e) and Duel.SpecialSummon(c,0,tp,tp,false,false,POS_FACEUP)>0 then
+			--Banish it if it leaves the field
+			local e1=Effect.CreateEffect(c)
+			e1:SetDescription(3300)
+			e1:SetType(EFFECT_TYPE_SINGLE)
+			e1:SetCode(EFFECT_LEAVE_FIELD_REDIRECT)
+			e1:SetProperty(EFFECT_FLAG_CANNOT_DISABLE+EFFECT_FLAG_CLIENT_HINT)
+			e1:SetReset(RESET_EVENT+RESETS_REDIRECT)
+			e1:SetValue(LOCATION_REMOVED)
+			c:RegisterEffect(e1,true)
+		end
+	elseif op==2 then
+		Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_TARGET)
+		local g=Duel.SelectMatchingCard(tp,s.mtfilter,tp,LOCATION_MZONE,0,1,1,nil)
+		local tc=g:GetFirst()
+		if c:IsRelateToEffect(e) and tc:IsRelateToEffect(e) and not tc:IsImmuneToEffect(e) then
+			Duel.Overlay(tc,c)
+		end
 	end
 end
