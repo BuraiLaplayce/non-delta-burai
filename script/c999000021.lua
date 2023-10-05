@@ -107,7 +107,7 @@ end
 function s.apop(e,tp,eg,ep,ev,re,r,rp)
 	local c=e:GetHandler()
 	local mttg=Duel.GetMatchingGroup(s.mtfilter,tp,LOCATION_MZONE,0,nil,e,tp)
-	local b1=#c>0 and Duel.GetLocationCount(tp,LOCATION_MZONE)>0
+	local b1=Duel.GetLocationCount(tp,LOCATION_MZONE)>0
 	local b2=#mttg>0
 	local op=Duel.SelectEffect(tp,
 		{b1,aux.Stringid(id,3)},
