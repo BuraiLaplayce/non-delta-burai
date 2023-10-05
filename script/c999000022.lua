@@ -19,7 +19,7 @@ function s.initial_effect(c)
 	local e3=e1:Clone()
 	e3:SetCode(EVENT_SPSUMMON_SUCCESS)
 	c:RegisterEffect(e3)
-	--Special summon 2 "Bujin" monsters from deck
+	--Special Summon 2 "tellarknight"/"constellar" monsters from deck
 	local e4=Effect.CreateEffect(c)
 	e4:SetDescription(aux.Stringid(id,1))
 	e4:SetCategory(CATEGORY_SPECIAL_SUMMON)
@@ -34,7 +34,7 @@ end
 s.listed_series={SET_TELLARKNIGHT,SET_CONSTELLAR}
 s.listed_names={id}
 function s.spfilter(c,e,tp)
-	return c:IsMonster() and c:IsSetCard(SET_TELLARKNIGHT,SET_CONSTELLAR) and not c:IsCode(id) 
+	return c:IsMonster() and c:IsSetCard(SET_TELLARKNIGHT|SET_CONSTELLAR) and not c:IsCode(id) 
 	and c:IsCanBeSpecialSummoned(e,0,tp,false,false,POS_FACEUP_DEFENSE)
 end
 function s.sptg(e,tp,eg,ep,ev,re,r,rp,chk,chkc)
