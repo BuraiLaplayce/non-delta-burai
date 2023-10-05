@@ -94,7 +94,7 @@ function s.apcost(e,tp,eg,ep,ev,re,r,rp,chk)
 	end
 end
 function s.mtfilter(c)
-	return c:IsFaceup() and c:IsType(TYPE_XYZ) and c:IsAttribute(ATTRIBUTE_LIGHT) --and not c:IsImmuneToEffect()
+	return c:IsFaceup() and c:IsType(TYPE_XYZ) and c:IsAttribute(ATTRIBUTE_LIGHT)
 end
 function s.aptg(e,tp,eg,ep,ev,re,r,rp,chk)
 	local c=e:GetHandler()
@@ -126,10 +126,11 @@ function s.apop(e,tp,eg,ep,ev,re,r,rp)
 			c:RegisterEffect(e1,true)
 		end
 	elseif op==2 then
+		if not c:IsRelateToEffect(e) then return end
 		Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_TARGET)
 		local g=Duel.SelectMatchingCard(tp,s.mtfilter,tp,LOCATION_MZONE,0,1,1,nil)
 		local tc=g:GetFirst()
-		if c:IsRelateToEffect(e) and tc:IsRelateToEffect(e) and not tc:IsImmuneToEffect(e) then
+		if tc and not tc:IsImmuneToEffect(e) then
 			Duel.Overlay(tc,c)
 		end
 	end
