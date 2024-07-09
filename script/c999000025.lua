@@ -20,7 +20,8 @@ function s.initial_effect(c)
 	e2:SetRange(LOCATION_SZONE)
 	e2:SetTargetRange(1,0)
 	e2:SetCountLimit(1)
-	e2:SetTarget(s.reptg)
+	e2:SetValue(s.repval)
+	e2:SetOperation(s.repop)
 	c:RegisterEffect(e2)
 end
 function s.spfilter(c,e,tp)
@@ -55,32 +56,11 @@ function s.activate(e,tp,eg,ep,ev,re,r,rp)
 		Duel.RegisterEffect(e1,tp)
 	end
 end
-function s.reptg(e,tp,eg,ep,ev,re,r,rp,chk)
-	local c=e:GetHandler()
-	if chk==0 then return not c:IsReason(REASON_REPLACE+REASON_COST) 
-		and Duel.CheckLPCost(tp,700) end
-	if Duel.SelectEffectYesNo(tp,aux.Stringid(id,3)) then
-		Duel.PayLPCost(tp,700)
-		return true
-	else return false end
-end
---[[
-function s.repcfilter(c,extracon,base,params)
-	return c:IsSetCard(SET_URSARCTIC) and c:IsLevelAbove(7) and c:IsAbleToRemoveAsCost()
-		and (not extracon or extracon(base,c,table.unpack(params)))
-end
-function s.repcon(e)
-	return Duel.IsExistingMatchingCard(s.repcfilter,e:GetHandlerPlayer(),LOCATION_GRAVE,0,1,nil)
-end
 function s.repval(base,e,tp,eg,ep,ev,re,r,rp,chk,extracon)
 	local c=e:GetHandler()
-	return c:IsMonster() and c:IsSetCard(SET_URSARCTIC) and
-		(not extracon or Duel.IsExistingMatchingCard(s.repcfilter,e:GetHandlerPlayer(),LOCATION_GRAVE,0,1,nil,extracon,base,{e,tp,eg,ep,ev,re,r,rp,chk}))
+	return Duel.CheckLPCost(tp,700)
 end
 function s.repop(base,e,tp,eg,ep,ev,re,r,rp)
-	Duel.Hint(HINT_CARD,0,id)
-	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_REMOVE)
-	local g=Duel.SelectMatchingCard(tp,s.repcfilter,tp,LOCATION_GRAVE,0,1,1,nil)
-	Duel.Remove(g,POS_FACEUP,REASON_COST+REASON_REPLACE)
+	Duel.Hint(HINT_CARD,0,aux.Stringid(id,3))
+	Duel.PayLPCost(tp,700)
 end
---]]
