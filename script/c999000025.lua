@@ -23,6 +23,15 @@ function s.initial_effect(c)
 	e2:SetValue(s.repval)
 	e2:SetOperation(s.repop)
 	c:RegisterEffect(e2)
+	local e3=Effect.CreateEffect(c)
+	e3:SetDescription(aux.Stringid(id,4))
+	e3:SetType(EFFECT_TYPE_FIELD+EFFECT_TYPE_TRIGGER_O)
+	e3:SetCode(EVENT_PHASE+PHASE_END)
+	e3:SetRange(LOCATION_SZONE)
+	e3:SetCountLimit(1)
+	e3:SetCondition(s.accon)
+	e3:SetOperation(s.acop)
+	c:RegisterEffect(e3)
 end
 function s.spfilter(c,e,tp)
 	return c:IsSetCard(0x165) and c:IsMonster() 
@@ -63,4 +72,23 @@ end
 function s.repop(base,e,tp,eg,ep,ev,re,r,rp)
 	Duel.Hint(HINT_CARD,0,id)
 	Duel.PayLPCost(tp,700)
+end
+function s.activatefilter(c,tp)
+	return (c:IsCode(CARD_URSARCTIC_BIG_DIPPER) or (c:IsSetCard(0x165) and c:IsType(TYPE_CONTINUOUS))) and c:GetActivateEffect() and c:GetActivateEffect():IsActivatable(tp,true,true)
+end
+function s.accon(e,tp,eg,ep,ev,re,r,rp)
+	return Duel.IsExistingMatchingCard(aux.FaceupFilter(Card.IsCode,27693363),tp,LOCATION_ONFIELD,0,1,nil)
+end
+function s.acop(e,tp,eg,ep,ev,re,r,rp)
+	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_TOFIELD)
+	local tc=Duel.SelectMatchingCard(tp,aux.NecroValleyFilter(s.activatefilter),tp,LOCATION_DECK+LOCATION_GRAVE,0,1,1,nil,tp):GetFirst()
+	if tc:IsType(TYPE_FIELD) then
+		Duel.ActivateFieldSpell(tc,e,tp,eg,ep,ev,re,r,rp)
+	else
+		Duel.MoveToField(tc,tp,tp,LOCATION_SZONE,POS_FACEUP,true)
+		local te=tc:GetActivateEffect()
+		local tep=tc:GetControler()
+		local cost=te:GetCost()
+		if cost then cost(te,tep,eg,ep,ev,re,r,rp,1) end
+	end
 end
