@@ -32,6 +32,15 @@ function s.activate(e,tp,eg,ep,ev,re,r,rp)
 		local g2=Duel.SelectMatchingCard(tp,s.spfilter2,tp,LOCATION_HAND+LOCATION_DECK,0,1,1,tc,e,tp,tc:GetLevel())
 		g1:Merge(g2)
 		Duel.SpecialSummon(g1,0,tp,tp,false,false,POS_FACEUP)
+		local e1=Effect.CreateEffect(c)
+		e1:SetDescription(aux.Stringid(id,2))
+		e1:SetType(EFFECT_TYPE_FIELD)
+		e1:SetCode(EFFECT_CANNOT_SPECIAL_SUMMON)
+		e1:SetProperty(EFFECT_FLAG_PLAYER_TARGET+EFFECT_FLAG_CLIENT_HINT)
+		e1:SetTargetRange(1,0)
+		e1:SetTarget(function(e,cc) return not cc:HasLevel() end)
+		e1:SetReset(RESET_PHASE|PHASE_END)
+		Duel.RegisterEffect(e1,tp)
 	end
 end
 --[[
