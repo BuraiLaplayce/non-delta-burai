@@ -74,7 +74,7 @@ function s.repop(base,e,tp,eg,ep,ev,re,r,rp)
 	Duel.PayLPCost(tp,700)
 end
 function s.activatefilter(c,tp)
-	return (c:IsCode(CARD_URSARCTIC_BIG_DIPPER) or (c:IsSetCard(0x165) and c:IsType(TYPE_CONTINUOUS))) and c:GetActivateEffect() and c:GetActivateEffect():IsActivatable(tp,true,true)
+	return (c:IsCode(CARD_URSARCTIC_BIG_DIPPER) or (c:IsSetCard(0x165) and c:IsType(TYPE_CONTINUOUS))) and not c:IsCode(id) and c:GetActivateEffect() and c:GetActivateEffect():IsActivatable(tp,true,true)
 end
 function s.accon(e,tp,eg,ep,ev,re,r,rp)
 	return Duel.IsExistingMatchingCard(aux.FaceupFilter(Card.IsCode,27693363),tp,LOCATION_ONFIELD,0,1,nil)
