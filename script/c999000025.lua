@@ -88,7 +88,11 @@ function s.acop(e,tp,eg,ep,ev,re,r,rp)
 		Duel.MoveToField(tc,tp,tp,LOCATION_SZONE,POS_FACEUP,true)
 		local te=tc:GetActivateEffect()
 		local tep=tc:GetControler()
-		local cost=te:GetCost()
+		if tc:IsCode(32692693) then
+			local cost=te:GetTarget()
+		else
+			local cost=te:GetCost()
+		end
 		if cost then cost(te,tep,eg,ep,ev,re,r,rp,1) end
 	end
 end
