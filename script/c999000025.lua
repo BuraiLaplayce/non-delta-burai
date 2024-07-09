@@ -61,6 +61,6 @@ function s.repval(base,e,tp,eg,ep,ev,re,r,rp,chk,extracon)
 	return Duel.CheckLPCost(tp,700)
 end
 function s.repop(base,e,tp,eg,ep,ev,re,r,rp)
-	Duel.Hint(HINT_CARD,0,aux.Stringid(id,3))
+	Duel.Hint(HINT_CARD,0,id)
 	Duel.PayLPCost(tp,700)
 end
