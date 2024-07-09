@@ -74,8 +74,10 @@ function s.repop(base,e,tp,eg,ep,ev,re,r,rp)
 	Duel.PayLPCost(tp,700)
 end
 function s.activatefilter(c,tp)
-	return (c:IsCode(CARD_URSARCTIC_BIG_DIPPER) or (c:IsSetCard(0x165) and c:IsType(TYPE_CONTINUOUS))) and c:GetActivateEffect() and c:GetActivateEffect():IsActivatable(tp,true,true)
+	return (c:IsCode(17052477) or (c:IsSetCard(0x165) and c:IsType(TYPE_CONTINUOUS))) and c:GetActivateEffect() and c:GetActivateEffect():IsActivatable(tp,true,true)
 end
+--c:IsCode(17052477)
+--c:IsCode(CARD_URSARCTIC_BIG_DIPPER)
 function s.accon(e,tp,eg,ep,ev,re,r,rp)
 	return Duel.IsExistingMatchingCard(aux.FaceupFilter(Card.IsCode,27693363),tp,LOCATION_ONFIELD,0,1,nil)
 end
@@ -88,11 +90,7 @@ function s.acop(e,tp,eg,ep,ev,re,r,rp)
 		Duel.MoveToField(tc,tp,tp,LOCATION_SZONE,POS_FACEUP,true)
 		local te=tc:GetActivateEffect()
 		local tep=tc:GetControler()
-		if tc:IsCode(32692693) then
-			local cost=te:GetTarget()
-		else
-			local cost=te:GetCost()
-		end
+		local cost=te:GetCost()
 		if cost then cost(te,tep,eg,ep,ev,re,r,rp,1) end
 	end
 end
