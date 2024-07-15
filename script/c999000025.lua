@@ -33,6 +33,8 @@ function s.initial_effect(c)
 	e3:SetOperation(s.acop)
 	c:RegisterEffect(e3)
 end
+s.listed_series={SET_URSARCTIC}
+s.listed_names={CARD_URSARCTIC_BIG_DIPPER,27693363}
 function s.spfilter(c,e,tp)
 	return c:IsSetCard(0x165) and c:IsMonster() 
 	and c:IsCanBeSpecialSummoned(e,0,tp,false,false)
