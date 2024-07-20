@@ -45,8 +45,8 @@ function s.efftg(e,tp,eg,ep,ev,re,r,rp,chk)
 		{b2,aux.Stringid(id,2)})
 	e:SetLabel(op)
 	if op==1 then
-		--[[e:SetCategory(CATEGORY_TOGRAVE)
-		Duel.SetOperationInfo(0,CATEGORY_TOGRAVE,nil,1,1-tp,LOCATION_ONFIELD)]]--
+		e:SetCategory(CATEGORY_DISABLE)
+		Duel.SetOperationInfo(0,CATEGORY_DISABLE,nil,1,LOCATION_ONFIELD,LOCATION_ONFIELD)
 	elseif op==2 then
 		e:SetCategory(CATEGORY_TOGRAVE)
 		Duel.SetOperationInfo(0,CATEGORY_TOGRAVE,nil,1,tp,LOCATION_DECK)
@@ -56,12 +56,12 @@ function s.effop(e,tp,eg,ep,ev,re,r,rp)
 	local op=e:GetLabel()
 	if op==1 then
 		--Negate 1 face-up card on the field
-		--[[Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_TOGRAVE)
-		local g=Duel.SelectMatchingCard(tp,Card.IsAbleToGrave,tp,0,LOCATION_ONFIELD,1,1,nil)
-		if #g>0 then
-			Duel.HintSelection(g,true)
-			Duel.SendtoGrave(g,REASON_EFFECT)
-		end]]--
+		Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_NEGATE)
+		local c=e:GetHandler()
+		local tc=Duel.SelectMatchingCard(tp,Card.IsNegatable,tp,LOCATION_ONFIELD,LOCATION_ONFIELD,1,1,nil):GetFirst()
+		if not tc then return end
+		Duel.HintSelection(tc,true)
+		tc:NegateEffects(c,RESET_PHASE|PHASE_END,true)
 	elseif op==2 then
 		--Send 1 Orcust or World Legacy
 		Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_TOGRAVE)
